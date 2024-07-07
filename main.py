@@ -11,5 +11,11 @@ print('While you wait for your parts to arrive, let\'s pay back off your first m
 game.pay_the_bank()
 
 print('Your parts look like they have arrived!')
-print('')
+print('Welcome to your main dashboard. Every so often, this will pop up.')
+
+game.dashboard()
+print('Choose an option from your dashboard.')
+
+
+
 

@@ -2,6 +2,10 @@
 import random as r
 import time
 import time as t
+first_manufacture = False
+machinery_level = 0
+
+min_credit_score = 1
 
 credit_score = 5
 
@@ -14,7 +18,8 @@ payments_remaining = 0
 per_month_payment = 0
 money = 0
 
-
+def sleep(n):
+    t.sleep(n)
 def explain_parts():
     print(f'In order to manufacture your rocks, you\'ll need to order some parts.')
     t.sleep(2)
@@ -44,11 +49,11 @@ def loan(time,amount):
         print('You have been granted a loan for ' + str(int(amount-(luck/100)*amount)) + ' dollars and ' + str(interest+luck/5) + '% interest for ' + str(time) + ' months.')
         add_money(int(amount-(luck/100)*amount))
         per_month_payment = round(int(amount-(luck/100)*amount)/time,2)
-    elif credit_score > 1:
+    elif credit_score > min_credit_score:
         print('You have been granted a loan for ' + str(int(amount-(luck/100)*amount*2)) + ' dollars and ' + str(interest+luck/5/2) + '% interest for ' + str(time) + ' months.')
         add_money(int(amount-(luck/100)*amount*2))
         per_month_payment = round(int(amount-(luck/100)*amount*2)/time,2)
-    if credit_score == 1:
+    if credit_score <= min_credit_score:
         print('Your loan has been denied.')
     bad_person_per_month_payment = per_month_payment
         
@@ -131,4 +136,71 @@ def pay_the_bank():
         if credit_score > 1:
             credit_score -= 1
         bad_person_per_month_payment = bad_person_per_month_payment + per_month_payment
+
+def manufacture():
+    global machinery_level
+    answer = ''
+    if first_manufacture:
+        print('To expand your business, you need to invest in some things.')
+        sleep(1)
+        print('Factory ($1,200,000)')
+        sleep(1)
+        print('Machinery ($45,000)')
+        sleep(1)
+        print('Employees ($85k per employee)')
         
+        if money < 45000 or payments_remaining > 0:
+            print('You cannot take further action because you don\'t have enough money and are still paying back your previous loan')
+            sleep(1)
+            print('Returning to dashboard...')
+            sleep(r.randint(1,3))
+            dashboard()
+        if money < 45000:
+            print('You cannot take action because of insufficient funds.')
+            print('Would you like to take out a loan? (y/n)')
+            while answer != 'y' or 'answer' != 'n':
+                answer = ask()
+                if answer != 'y' or answer != 'n':
+                    print('Not an answer.')
+            if answer == 'y':
+                print('What would you take out a loan for?')
+                print('Factory (f) or Machinery (m)')
+
+
+           while answer != 'f' or 'answer' != 'm':
+                answer = ask()
+                if answer != 'f' or answer != 'm':
+                    print('Not an answer.')
+           if answer == 'f':
+                print('Requesting a loan for 4 years for $1,200,000')
+                loan(48, 1200000)
+                if credit_score > 1:
+                    print('Factory purchased!')
+                    print('Your business barely stays alive while your factory is being built.')
+
+           if answer == 'm':
+                print('Requesting a loan for 1 year for $45,000')
+                loan(12,45000)
+                print('Machinery purchased!')
+                machinery_level = 1
+
+
+
+def sell():
+    pass
+def expand():
+    pass
+def dashboard():
+    print('Pay off loan (l)')
+    print('Manufacture products (m)')
+    print('Sell products (s)')
+    print('Develop business (d)')
+    answer = ask()
+    if answer == 'l':
+        pay_the_bank()
+    if answer == 'm':
+        manufacture()
+    if answer == 's':
+        sell()
+    if answer == 'd':
+        expand()
