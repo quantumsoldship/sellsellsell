@@ -4,6 +4,7 @@ import time
 import time as t
 first_manufacture = True
 machinery_level = 0
+rock_stock = 0
 factory_level = 0
 eyes = 0
 rocks = 0
@@ -142,7 +143,7 @@ def pay_the_bank():
         bad_person_per_month_payment = bad_person_per_month_payment + per_month_payment
 
 def expand():
-    global machinery_level,first_manufacture,money,factory_level
+    global machinery_level,first_manufacture,money,factory_level, batch_multiplier
     answer = ''
     if first_manufacture:
         print('To expand your business, you need to invest in some things.')
@@ -184,7 +185,7 @@ def expand():
                     print('Factory purchased!')
                     sleep(1)
                     print('Your business barely stays alive while your factory is being built.')
-                    factory_level += 1
+                    batch_multiplier += 10000
                     sleep(2)
                     print('Let\'s start manufacturing!')
                     manufacture()
@@ -208,22 +209,33 @@ def expand():
 def sell():
     print('To sell your goods, you')
 def manufacture():
-    global paint, eyes, rocks
+    global paint, eyes, rocks, rock_stock, batch_multiplier
     print('Manufacturing goods...')
-    print('Amount of rocks: ' + str(rocks))
-    print('Amount of paint: ' + str(paint))
-    print('Amount of googly eyes: ' + str(eyes))
+    print('Batches of rocks: ' + str(rocks))
+    print('Batches of paint: ' + str(paint))
+    print('Batches of googly eyes: ' + str(eyes))
     sleep(1)
     print('How many batches would you like to manufacture?')
     print('One batch makes ' + str(batch_multiplier) + ' rocks')
     print('You can manufacture ' + str(min(paint,eyes,rocks)) + ' batches.')
     batches = ask()
-    for i in range(int(batches)):
-        print('Manufacturing goods...')
+
+    print('Manufacturing batch...')
+    sleep(r.randint(1,3))
+    print('Manufacturing complete, adding to storage.')
+    rock_stock += batch_multiplier
+    sleep(1)
+
+    for i in range(int(batches)-1):
+        print('Manufacturing next batch...')
         sleep(r.randint(1,3))
         print('Manufacturing complete, adding to storage.')
+        rock_stock += batch_multiplier
+
+        print(str(round((i+1/int(batches),0) + '% done.')))
         sleep(1)
     
+    print('Manufacturing complete. You now have ' + rock_stock + ' rocks in stock.')
 def dashboard():
     print('Pay off loan (l)')
     print('Manufacture products (m)')
