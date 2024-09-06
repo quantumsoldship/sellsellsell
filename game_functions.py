@@ -20,7 +20,7 @@ per_month_payment = 0
 money = 0
 
 def sleep(n):
-    sleep(n)
+    time.sleep(n)
 def explain_parts():
     print(f'In order to manufacture your rocks, you\'ll need to order some parts.')
     sleep(2)
@@ -88,13 +88,13 @@ def order_parts():
     global money
     
     
-    print('How many tons of rocks would you like to order? You have $' + str(money) + ' left in your account.')
+    print('How many tons of rocks would you like to order? You have $' + str(round(money,2)) + ' left in your account.')
     rocks = ask() 
     money -= rock_price*int(rocks)
     print('Order complete, costing $' + str(int(rocks) * rock_price))
     
     
-    print('How many gallons of paint would you like to order? You have $' + str(money) + ' left in your account.')
+    print('How many gallons of paint would you like to order? You have $' + str(round(money,2)) + ' left in your account.')
     paint = ask()
     discount = (int(paint) - 1)*3
     if discount > 12:
@@ -105,7 +105,7 @@ def order_parts():
     print('Order complete, costing $' + str(paint_money_spent))
     
     
-    print('How many 500cts of googly eyes would you like to order? You have $' + str(money) + ' left in your account.')
+    print('How many 500cts of googly eyes would you like to order? You have $' + str(round(money,2)) + ' left in your account.')
     eyes = ask()
     discount = (int(eyes) - 1)*8
     if discount > 32:
@@ -139,7 +139,7 @@ def pay_the_bank():
         bad_person_per_month_payment = bad_person_per_month_payment + per_month_payment
 
 def expand():
-    global machinery_level,first_manufacture
+    global machinery_level,first_manufacture,money
     answer = ''
     if first_manufacture:
         print('To expand your business, you need to invest in some things.')
