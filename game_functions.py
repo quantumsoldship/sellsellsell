@@ -7,6 +7,7 @@ machinery_level = 0
 factory_level = 0
 eyes = 0
 rocks = 0
+batch_multiplier = 500
 paint = 0
 min_credit_score = 1
 
@@ -209,18 +210,20 @@ def sell():
 def manufacture():
     global paint, eyes, rocks
     print('Manufacturing goods...')
-    print('Amount of rocks: ' + rocks)
-    print('Amount of paint: ' + paint)
-    print('Amount of googly eyes: ' + eyes)
+    print('Amount of rocks: ' + str(rocks))
+    print('Amount of paint: ' + str(paint))
+    print('Amount of googly eyes: ' + str(eyes))
     sleep(1)
     print('How many batches would you like to manufacture?')
-    print('')
-    for i in range(min(paint,eyes,rocks)):
+    print('One batch makes ' + str(batch_multiplier) + ' rocks')
+    print('You can manufacture ' + str(min(paint,eyes,rocks)) + ' batches.')
+    batches = ask()
+    for i in range(int(batches)):
         print('Manufacturing goods...')
         sleep(r.randint(1,3))
         print('Manufacturing complete, adding to storage.')
         sleep(1)
-
+    
 def dashboard():
     print('Pay off loan (l)')
     print('Manufacture products (m)')
