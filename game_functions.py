@@ -139,7 +139,7 @@ def pay_the_bank():
         bad_person_per_month_payment = bad_person_per_month_payment + per_month_payment
 
 def expand():
-    global machinery_level,first_manufacture,money
+    global machinery_level,first_manufacture,money,factory_level
     answer = ''
     if first_manufacture:
         print('To expand your business, you need to invest in some things.')
@@ -203,9 +203,9 @@ def expand():
 
 
 def sell():
-    pass
+    print('To sell your goods, you)
 def manufacture():
-    pass
+    print('')
 def dashboard():
     print('Pay off loan (l)')
     print('Manufacture products (m)')
