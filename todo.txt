@@ -1,0 +1,6 @@
+Hello!
+
+Things i need to do:
+
+- Implement multiple loans
+- Finish expand function to include not first_manufacture

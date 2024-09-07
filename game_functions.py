@@ -11,7 +11,7 @@ rocks = 0
 batch_multiplier = 500
 paint = 0
 min_credit_score = 1
-
+first_sell = False
 credit_score = 5
 
 # Global Variable Declaration
@@ -124,24 +124,27 @@ def order_parts():
 
 def pay_the_bank():
     global money, per_month_payment, credit_score, payments_remaining, bad_person_per_month_payment
-    print('You need to pay $' + str(per_month_payment) + ' this month. Would you like to pay it? (y/n)')
-    if ask() == 'y':
-        money -= per_month_payment
-        print('You\'ve paid the bank!')
-        if r.randint(1,2) == 1:
-            if credit_score < 10:
-                credit_score += 1
-        if payments_remaining > 1:
-            payments_remaining -= 1
-        bad_person_per_month_payment = per_month_payment
-        if payments_remaining == 0:
-            print('You have paid off your loan! Congratulations!')
+    if payments_remaining > 1:
+        print('You need to pay $' + str(per_month_payment) + ' this month. Would you like to pay it? (y/n)')
+        if ask() == 'y':
+            money -= per_month_payment
+            print('You\'ve paid the bank!')
+            if r.randint(1,2) == 1:
+                if credit_score < 10:
+                    credit_score += 1
+            if payments_remaining > 1:
+                payments_remaining -= 1
+            bad_person_per_month_payment = per_month_payment
+            if payments_remaining == 0:
+                print('You have paid off your loan! Congratulations!')
+        else:
+            print('You have neglected to pay the bank. Your reliability goes down.')
+            if credit_score > 1:
+                credit_score -= 1
+            bad_person_per_month_payment = bad_person_per_month_payment + per_month_payment
+        dashboard()
     else:
-        print('You have neglected to pay the bank. Your reliability goes down.')
-        if credit_score > 1:
-            credit_score -= 1
-        bad_person_per_month_payment = bad_person_per_month_payment + per_month_payment
-
+        'You\'ve paid off your loan'
 def expand():
     global machinery_level,first_manufacture,money,factory_level, batch_multiplier
     answer = ''
@@ -203,13 +206,30 @@ def expand():
                     dashboard()
     else:
         pass
-
+    dashboard()
 
 
 def sell():
-    print('To sell your goods, you')
+    if first_sell:
+        print('Before you can sell, you\'ll need to manufacture your rocks.')
+
 def manufacture():
+    global first_sell
+    first_sell = False
     global paint, eyes, rocks, rock_stock, batch_multiplier
+    if rocks <= 0:
+        print('You need to order more rocks to continue.')
+        print('Would you like to order more parts? (y/n)')
+        answer = ask()
+        if answer == 'y':
+            order_parts()
+        elif answer == 'n':
+            dashboard()
+        else:
+            print('Invalid answer. Returing to dasboard...')
+            dashboard()
+
+
     print('Manufacturing goods...')
     print('Batches of rocks: ' + str(rocks))
     print('Batches of paint: ' + str(paint))
@@ -221,6 +241,9 @@ def manufacture():
     batches = ask()
 
     print('Manufacturing batch...')
+    rocks -= 1
+    paint -= 1
+    eyes -= 1
     sleep(r.randint(1,3))
     print('Manufacturing complete, adding to storage.')
     rock_stock += batch_multiplier
@@ -236,11 +259,14 @@ def manufacture():
         sleep(1)
     
     print('Manufacturing complete. You now have ' + rock_stock + ' rocks in stock.')
+
 def dashboard():
+    print('\n\n')
     print('Pay off loan (l)')
     print('Manufacture products (m)')
     print('Sell products (s)')
     print('Develop business (d)')
+    print('Purchase ingredients (i)')
     answer = ask()
     if answer == 'l':
         pay_the_bank()
@@ -250,3 +276,8 @@ def dashboard():
         sell()
     if answer == 'd':
         expand()
+    if answer == 'i':
+        order_parts()
+    else:
+        print('Invalid answer')
+        dashboard()
