@@ -1,2 +1,6 @@
-Sell Sell Sell is a game i'm making. It's cool.
+Sell Sell Sell is a game. Yay.
 
+
+Try it out.
+
+(Mac application coming soon)
