@@ -2,6 +2,8 @@
 import random as r
 import time
 import time as t
+import logging
+
 first_manufacture = True
 machinery_level = 0
 rock_stock = 0
@@ -22,7 +24,8 @@ payments_remaining = 0
 
 per_month_payment = 0
 money = 0
-
+def log_money(n):
+    logging.log("money",n)
 def sleep(n):
     time.sleep(n)
 def explain_parts():
@@ -96,6 +99,8 @@ def order_parts():
     rocks = ask() 
     money -= rock_price*int(rocks)
     print('Order complete, costing $' + str(int(rocks) * rock_price))
+
+    logging.log("rocks",int(rocks))
     
     
     print('How many gallons of paint would you like to order? You have $' + str(round(money,2)) + ' left in your account.')
@@ -107,10 +112,12 @@ def order_parts():
     paint_money_spent = round(paint_money_spent,2)
     money -= paint_money_spent
     print('Order complete, costing $' + str(paint_money_spent))
+    logging.log("paint",int(paint))
     
     
     print('How many 500cts of googly eyes would you like to order? You have $' + str(round(money,2)) + ' left in your account.')
     eyes = ask()
+    logging.log('eyes',int(eyes))
     discount = (int(eyes) - 1)*8
     if discount > 32:
         discount = 32
@@ -142,7 +149,6 @@ def pay_the_bank():
             if credit_score > 1:
                 credit_score -= 1
             bad_person_per_month_payment = bad_person_per_month_payment + per_month_payment
-        dashboard()
     else:
         'You\'ve paid off your loan'
 def expand():

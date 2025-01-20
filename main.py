@@ -17,9 +17,12 @@ if not logging.output_log("intro_check"):
 
     game.sleep(2)
     logging.log("intro_check",True)
-print('Welcome to your main dashboard. This will be your main way to run your business.')
 
+    print('Welcome to your main dashboard. This will be your main way to run your business.')
+else:
+    print('Welcome back. Returning to dashboard.')
 print('Choose an option from your dashboard.')
+game.sleep(1)
 game.dashboard()
 
 
